@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">PlayEDU</string>
-    <string name="forgot_pass">Забыли пароль</string>
+    <string name="forgot_pass">Забыли пароль?</string>
     <string name="remind_pass">Напомнить пароль</string>
     <string name="FIO_hint">ФИО</string>
     <string name="group_hint">Группа</string>
     <string name="enter_title">Вход</string>
+    <string name="sign_in">Войти</string>
     <string name="reg_title">Регистрация</string>
     <string name="pass_hint">Пароль</string>
+    <string name="remind">Напомнить</string>
+    <string name="sign_up">Зарегистрироваться</string>
     <string name="phone_number_hint">Номер телефона</string>
     <string name="repeat_pass_hint">Повторите пароль</string>
     <string name="magician_male_title">Маг</string>
@@ -15,4 +18,37 @@
     <string name="choose_magician_title">Выбери своего героя</string>
     <string name="user_greetings_pass">Привет, Михаил!</string>
     <string name="user_gold_coin_pass">1200</string>
+    <string name="choose">Выбрать</string>
+
+    <string name="quests">Квесты</string>
+    <string name="adventure">Приключение</string>
+    <string name="community">Сообщество</string>
+    <string name="profile">Профиль</string>
+    <string name="pe_tasks">Задания от PlayEdu</string>
+    <string name="your_tasks">Твои задания</string>
+    <string name="pick_required_color">Выбери нужный цвет задачи</string>
+    <string name="pick_list">Выбери нужный список</string>
+    <string name="filter">Фильтр</string>
+    <string name="add_task">Добавление нового задания</string>
+    <string name="title">Название</string>
+    <string name="list">Список</string>
+    <string name="add_task_hint">Введи награду за выполнение и дедлайн</string>
+    <string name="pick_task_color">Выбери цвет задания</string>
+    <string name="add">Добавить</string>
+    <string name="price_error_too_much">Не более 100 монет</string>
+    <string name="price_hint">20</string>
+    <string name="delete_task_header">Ты уверен, что хочешь удалить задание?</string>
+    <string name="complete_task_header">Отметить задание выполненным?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="statistic_title">Статистика</string>
+    <string name="statistic_round_description">Заданий от PlayEdu выполнено за неделю</string>
+    <string name="show_more_title">Показать больше</string>
+    <string name="powers_title">Силы</string>
+    <string name="achievements_title">Достижения</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="leaderboard_title">Доска лидеров</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -4,86 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EnterActivity"
-    android:background="@color/background">
+    tools:context=".EnterActivity">
 
-    <ImageButton
-        android:layout_width="66dp"
-        android:layout_height="20dp"
-        android:background="@null"
-        android:src="@drawable/back_btn"
-        app:layout_constraintStart_toStartOf="parent"
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Theme.PlayEDU"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="17dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="48dp"/>
+        app:navigationIcon="?attr/actionModeCloseDrawable"
+        tools:layout_editor_absoluteX="26dp" />
 
     <LinearLayout
-        android:layout_width="360dp"
-        android:layout_height="348dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="260dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="-33dp">
 
         <TextView
+            android:id="@+id/header"
+            style="@style/Header"
+            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/roboto_black"
-            android:text="@string/enter_title"
-            android:textColor="@color/white"
-            android:textFontWeight="700"
-            android:textSize="24sp" />
+            android:text="@string/enter_title" />
 
         <EditText
-            android:layout_width="360dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rec_rounded_white"
+            android:id="@+id/edit_txt_name"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
             android:hint="@string/FIO_hint"
-            android:paddingLeft="20dp" />
+            android:inputType="textPersonName" />
 
         <EditText
-            android:layout_width="360dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rec_rounded_white"
-            android:hint="@string/group_hint"
-            android:paddingLeft="20dp" />
-
-        <EditText
-            android:layout_width="360dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rec_rounded_white"
-            android:hint="@string/pass_hint"
-            android:paddingLeft="20dp" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
+            android:id="@+id/edit_txt_group"
+            style="@style/EditText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@null"
-            android:src="@drawable/enter_btn_false" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/group_hint"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/edit_txt_pswrd"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/pass_hint"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/enterBtn"
+            style="@style/DefaultButton"
+            android:layout_width="@dimen/min_btn_width"
+            android:layout_height="64dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/purple_100"
+            android:text="@string/sign_in" />
 
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="380dp"
-        android:layout_height="205dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/pic_cat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/cat_remind_pass" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
