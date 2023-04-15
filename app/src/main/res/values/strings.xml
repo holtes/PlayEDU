@@ -46,9 +46,23 @@
     <string name="show_more_title">Показать больше</string>
     <string name="powers_title">Силы</string>
     <string name="achievements_title">Достижения</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="leaderboard_title">Доска лидеров</string>
+    <string name="price">Цена:</string>
+    <string name="buy">Купить</string>
+    <string name="start_adventure">Начать приключение?</string>
+    <string name="characteristics">Показатели:</string>
+    <string name="damage">Урон:</string>
+    <string name="health">Здоровье:</string>
+    <string name="pick_powers">Выбери силы:</string>
+    <string name="start">Начать</string>
+    <string name="damage_done">Нанесен урон:</string>
+    <string name="no_damage">Вы не смогли нанести урон</string>
+    <string name="victory">Победа!</string>
+    <string name="defeat">К сожалению, вы проиграли</string>
+    <string name="new_fight">Новый бой</string>
+    <string name="award">Награда:</string>
+    <string name="no_damage_to_player">Вам не был нанесен урон</string>
+    <string name="enemies_left">Монстров осталось: </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>

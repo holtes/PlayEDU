@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.fragment.CommunityFragment">
+<FrameLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CommunityFragment">
+    android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
@@ -29,7 +30,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                tools:listitem="@layout/leaderboard_item"
+                tools:listitem="@layout/view_leaderboard_item"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="15dp"
                 />
@@ -45,7 +46,7 @@
                     android:id="@+id/imageView2"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
-                    android:src="@drawable/add_to_list_icon" />
+                    android:src="@drawable/ic_add" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,7 +88,7 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/statistic_round_shape" />
+                        android:background="@drawable/shape_statistic_round" />
 
                     <TextView
                         android:layout_width="128dp"
@@ -116,7 +117,7 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/statistic_round_shape" />
+                        android:background="@drawable/shape_statistic_round" />
 
                     <TextView
                         android:layout_width="128dp"
@@ -144,7 +145,7 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/statistic_round_shape" />
+                        android:background="@drawable/shape_statistic_round" />
 
                     <TextView
                         android:layout_width="128dp"
@@ -164,3 +165,4 @@
     </ScrollView>
 
 </FrameLayout>
+</layout>
