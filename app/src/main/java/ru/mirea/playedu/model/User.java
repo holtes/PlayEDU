@@ -12,14 +12,24 @@ public class User {
     private String group;
     private int goldenCoins;
     private int silverCoins;
-    private URL userIcon;
+    private String userIcon;
     private ArrayList<Achievement> profileAchievements;
 
+    public User(String login, String password, String phoneNumber,
+                String group, String userIcon) {
+        this.login = login;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.group = group;
+        this.goldenCoins = 0;
+        this.silverCoins = 0;
+        this.userIcon = userIcon;
+        this.profileAchievements = new ArrayList<>();
+    }
 
     public User(String login, String password, String phoneNumber,
-                String group, int goldenCoins, int silverCoins, URL userIcon,
+                String group, int goldenCoins, int silverCoins, String userIcon,
                 ArrayList<Achievement> profileAchievements) {
-        this.userId = userId;
         this.login = login;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -86,11 +96,11 @@ public class User {
         this.silverCoins = silverCoins;
     }
 
-    public URL getUserIcon() {
+    public String getUserIcon() {
         return userIcon;
     }
 
-    public void setUserIcon(URL userIcon) {
+    public void setUserIcon(String userIcon) {
         this.userIcon = userIcon;
     }
 
@@ -134,4 +144,18 @@ public class User {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", group='" + group + '\'' +
+                ", goldenCoins=" + goldenCoins +
+                ", silverCoins=" + silverCoins +
+                ", userIcon='" + userIcon + '\'' +
+                ", profileAchievements=" + profileAchievements +
+                '}';
+    }
 }

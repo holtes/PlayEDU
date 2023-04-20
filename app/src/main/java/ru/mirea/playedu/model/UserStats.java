@@ -13,6 +13,17 @@ public class UserStats {
     private int quizCompleted;
     private int profilesVisited;
 
+    public UserStats(int statsId, Date registrationDate) {
+        this.statsId = statsId;
+        this.registrationDate = registrationDate;
+        playEduTasksCompleted = 0;
+        userTasksCompleted = 0;
+        fightsCount = 0;
+        enemiesKilled = 0;
+        quizCompleted = 0;
+        profilesVisited = 0;
+    }
+
 
     public UserStats(int statsId, Date registrationDate, int playEduTasksCompleted,
                      int userTasksCompleted, int fightsCount, int enemiesKilled,
@@ -120,5 +131,19 @@ public class UserStats {
         result = 31 * result + quizCompleted;
         result = 31 * result + profilesVisited;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserStats{" +
+                "statsId=" + statsId +
+                ", registrationDate=" + registrationDate +
+                ", playEduTasksCompleted=" + playEduTasksCompleted +
+                ", userTasksCompleted=" + userTasksCompleted +
+                ", fightsCount=" + fightsCount +
+                ", enemiesKilled=" + enemiesKilled +
+                ", quizCompleted=" + quizCompleted +
+                ", profilesVisited=" + profilesVisited +
+                '}';
     }
 }
