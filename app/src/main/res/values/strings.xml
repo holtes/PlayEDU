@@ -42,7 +42,9 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="statistic_title">Статистика</string>
-    <string name="statistic_round_description">Заданий от PlayEdu выполнено за неделю</string>
+    <string name="play_edu_compl_count">Заданий от PlayEdu выполнено</string>
+    <string name="tasks_compl_count">Собственных заданий выполнено</string>
+    <string name="kills_count">Монстров убито</string>
     <string name="show_more_title">Показать больше</string>
     <string name="powers_title">Силы</string>
     <string name="achievements_title">Достижения</string>
@@ -62,6 +64,8 @@
     <string name="no_damage_poison_power">Вы не смогли нанести урон, однако успели отравить противника. Негативные эффекты не начисляются!</string>
     <string name="victory">Победа!</string>
     <string name="defeat">К сожалению, вы проиграли</string>
+    <string name="attack">Атака</string>
+    <string name="defense">Защита</string>
     <string name="new_fight">Новый бой</string>
     <string name="award">Награда:</string>
     <string name="no_damage_to_player">Вам не был нанесен урон</string>

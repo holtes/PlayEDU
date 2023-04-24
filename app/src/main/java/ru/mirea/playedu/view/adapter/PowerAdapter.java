@@ -39,6 +39,12 @@ public class PowerAdapter extends RecyclerView.Adapter<PowerAdapter.ViewHolder> 
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
+    public void setPowersList(ArrayList<Power> powers) {
+        this.powers = powers;
+        notifyDataSetChanged();
+    }
+
+
     @NonNull
     @Override
     public PowerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,7 +62,7 @@ public class PowerAdapter extends RecyclerView.Adapter<PowerAdapter.ViewHolder> 
         return powers.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ViewPowerItemBinding binding;
 
@@ -66,8 +72,7 @@ public class PowerAdapter extends RecyclerView.Adapter<PowerAdapter.ViewHolder> 
         }
 
         public void bind(Power power, OnItemClickListener listener, OnItemLongClickListener longClickListener, int position) {
-            binding.setPower(power
-            );
+            binding.setPower(power);
             binding.powerImg.setImageResource(power.getIcon());
             itemView.setOnClickListener(view -> {
                 listener.onItemClick(power, position);
