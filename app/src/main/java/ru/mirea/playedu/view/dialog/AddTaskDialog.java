@@ -49,6 +49,9 @@ public class AddTaskDialog extends DialogFragment implements OnSelectColorFilter
     private Category category;
 
 
+    public AddTaskDialog(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
     @Nullable
     @Override
@@ -139,14 +142,15 @@ public class AddTaskDialog extends DialogFragment implements OnSelectColorFilter
         // Рассчет отступов между цветами
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int margin =  getResources().getDimensionPixelOffset(R.dimen.default_margin);
+        int margin = getResources().getDimensionPixelOffset(R.dimen.default_margin);
         recyclerView.addItemDecoration(
                 new HorizontalMarginItemDecoration(
                         0,
                         DimensionManager.calcHorizontalMargin(
                                 metrics.widthPixels - margin,
                                 getResources().getDimensionPixelOffset(R.dimen.color_btn_size),
-                                colors.length
+                                colors.length,
+                                Constants.DIALOG_COEFFICIENT
                         ),
                         0,
                         0,
@@ -160,12 +164,11 @@ public class AddTaskDialog extends DialogFragment implements OnSelectColorFilter
                 title = titleEditTxt.getText().toString();
                 price = Integer.parseInt(priceEditTxt.getText().toString());
                 deadlineDate = calendar.getTime();
-                creationDate = Calendar.getInstance().getTime();
                 category = viewModel.createCategory(listEditTxt.getText().toString());
-                UserTask userTask = new UserTask(title, category, true, price, deadlineDate, creationDate, taskColor);
+                UserTask userTask = new UserTask(title, category, false, price, deadlineDate, creationDate, taskColor);
                 viewModel.addTask(userTask);
-                getParentFragmentManager().setFragmentResult("requestKey", Bundle.EMPTY);
-                alert.cancel();
+                requireActivity().getSupportFragmentManager().setFragmentResult("requestKey", Bundle.EMPTY);
+                dismiss();
             }
         });
 
