@@ -141,7 +141,8 @@ public class Constants {
 
     // Сила заглушка
     public static Power selectablePower = new Power(-1, 0, "", "", false, R.drawable.ic_pick_power, SILVER_COINS_TYPE, EFFECT_INFO, Powers.NONE,0);
-
+    // Атчивка заглушка
+    public static Achievement selectableAchievement = new Achievement(-1, 0, "", "", false, R.drawable.ic_pick_power);
     // Получение массива сил
     public static Power[] getPowersList(Context context) {
         String[] powersTitles = context.getResources().getStringArray(R.array.powersTitles);

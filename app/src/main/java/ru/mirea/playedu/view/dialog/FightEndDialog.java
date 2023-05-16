@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import ru.mirea.playedu.R;
 import ru.mirea.playedu.databinding.DialogFightEndBinding;
@@ -85,6 +87,15 @@ public class FightEndDialog extends DialogFragment {
                 });
                 break;
         }
+        binding.endBattle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+                NavController navController = navHostFragment.getNavController();
+                navController.popBackStack();
+                getDialog().dismiss();
+            }
+        });
         return builder.create();
     }
 }

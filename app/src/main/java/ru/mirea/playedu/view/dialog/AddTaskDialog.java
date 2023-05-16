@@ -110,7 +110,7 @@ public class AddTaskDialog extends DialogFragment implements OnSelectColorFilter
         // Отображение подсказки - нужного формата даты в виде сегодняшней даты
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        dateEditTxt.setHint(dateFormat.format(calendar.getTime()));
+        dateEditTxt.setHint(dateFormat.format(creationDate.getTime()));
 
         // Выбор даты дедлайна при нажатии на dateEditText
         dateEditTxt.setOnClickListener(view -> {
@@ -121,7 +121,7 @@ public class AddTaskDialog extends DialogFragment implements OnSelectColorFilter
                         @Override
                         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                             calendar.set(year, month - 1, day);
-                            dateEditTxt.setText(dateFormat.format(calendar.getTime()));
+                            dateEditTxt.setText(dateFormat.format(creationDate));
                         }
                     },
                     calendar.get(Calendar.YEAR),
@@ -129,7 +129,7 @@ public class AddTaskDialog extends DialogFragment implements OnSelectColorFilter
                     calendar.get(Calendar.DAY_OF_MONTH)
             );
             // Установка сегодняшней даты минимальной при выборе даты дедлайна
-            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            datePickerDialog.getDatePicker().setMinDate(creationDate.getTime());
             datePickerDialog.show();
         });
 

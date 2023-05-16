@@ -21,9 +21,15 @@ public class AchievementDialog extends DialogFragment {
 
     private View view;
     private Achievement achievement;
+    private boolean isAchievementUnlocked;
 
     public AchievementDialog(Achievement achievement) {
         this.achievement = achievement;
+    }
+
+    public AchievementDialog(Achievement achievement, boolean isAchievementUnlocked) {
+        this.achievement = achievement;
+        this.isAchievementUnlocked = isAchievementUnlocked;
     }
 
     @Nullable
@@ -47,8 +53,18 @@ public class AchievementDialog extends DialogFragment {
 
         // Получение binding диалога
         DialogAchievementBinding binding = DialogAchievementBinding.inflate(getLayoutInflater());
-        binding.setAchievement(achievement);
-        binding.achvmntImg.setImageResource(achievement.getIcon());
+        if (isAchievementUnlocked) {
+            String title = getString(R.string.new_achievement);
+            Achievement newAchievement = new Achievement(-1, 0, title, achievement.getDescription(), false, achievement.getIcon());
+            binding.setAchievement(newAchievement);
+            binding.achvmntImg.setImageResource(newAchievement.getIcon());
+        }
+        else {
+            binding.setAchievement(achievement);
+            binding.achvmntImg.setImageResource(achievement.getIcon());
+        }
+
+
 
         builder.setView(binding.getRoot());
         return builder.create();

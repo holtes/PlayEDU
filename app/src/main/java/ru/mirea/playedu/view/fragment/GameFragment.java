@@ -54,24 +54,18 @@ public class GameFragment extends Fragment {
         dialog.setCancelable(false);
         dialog.show(getActivity().getSupportFragmentManager(), "Start game dialog");
         binding.clickableArea.setVisibility(View.GONE);
-        gameViewModel.setIsFragmentEnter(true);
+        gameViewModel.setIsFragmentEnter(false);
         // Проверка на то, что игрок нажал на кнопку начала приключения
         gameViewModel.getStartGame().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                if (!gameViewModel.getIsFragmentEnter()) {
+                if (gameViewModel.getIsFragmentEnter()) {
                     if (aBoolean) {
                         dialog.dismiss();
                         gameViewModel.setPlayer();
                         binding.healthPlayerBar.setMax(gameViewModel.getPlayer().getHealth());
                         gameViewModel.reloadAllPowersStatus(true);
                         startGame();
-                    }
-                    else {
-                        dialog.dismiss();
-                        NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-                        NavController navController = navHostFragment.getNavController();
-                        navController.popBackStack();
                     }
                 }
             }
@@ -81,24 +75,24 @@ public class GameFragment extends Fragment {
         gameViewModel.getIsBattle().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    binding.clickableArea.setVisibility(View.VISIBLE);
-                    enemyPreviewDialog.dismiss();
-                    if (gameViewModel.getCurrentEnemyId() == 0) {
-                        setPowersImg();
-                        gameViewModel.addPassivePowersEffects();
-                    }
-                    gameViewModel.reloadAllPowersStatus(false);
-                    binding.healthEnemyBar.setMax(gameViewModel.getEnemy(gameViewModel.getCurrentEnemyId()).getHealth());
-                    gameViewModel.setIsAttack(true);
-                }
-                else {
-                    if (gameViewModel.isAllEnemyKilled()) {
-                        gameViewModel.restartGame();
-                    }
-                    else {
-                        gameViewModel.setCurrentEnemy(gameViewModel.getCurrentEnemyId() + 1);
-                        gameIteration(gameViewModel.getCurrentEnemyId());
+                if (gameViewModel.getIsFragmentEnter()) {
+                    if (aBoolean) {
+                        binding.clickableArea.setVisibility(View.VISIBLE);
+                        enemyPreviewDialog.dismiss();
+                        if (gameViewModel.getCurrentEnemyId() == 0) {
+                            setPowersImg();
+                            gameViewModel.addPassivePowersEffects();
+                        }
+                        gameViewModel.reloadAllPowersStatus(false);
+                        binding.healthEnemyBar.setMax(gameViewModel.getEnemy(gameViewModel.getCurrentEnemyId()).getHealth());
+                        gameViewModel.setIsAttack(true);
+                    } else {
+                        if (gameViewModel.isAllEnemyKilled()) {
+                            gameViewModel.restartGame();
+                        } else {
+                            gameViewModel.setCurrentEnemy(gameViewModel.getCurrentEnemyId() + 1);
+                            gameIteration(gameViewModel.getCurrentEnemyId());
+                        }
                     }
                 }
             }
@@ -108,34 +102,38 @@ public class GameFragment extends Fragment {
         gameViewModel.getIsAttack().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                binding.gameLayout.removeAllViewsInLayout();
-                if (gameViewModel.isPlayerKilled()) {
-                    if (!gameViewModel.useActivePower(Powers.LIFE_POWER)) {
+                if (gameViewModel.getIsFragmentEnter()) {
+                    binding.gameLayout.removeAllViewsInLayout();
+                    if (gameViewModel.isPlayerKilled()) {
+                        if (!gameViewModel.useActivePower(Powers.LIFE_POWER)) {
+                            binding.clickableArea.setVisibility(View.GONE);
+                            gameViewModel.setBattleResult(BattleResult.DEFEAT);
+                            fightEndDialog = new FightEndDialog();
+                            fightEndDialog.setCancelable(false);
+                            fightEndDialog.show(getActivity().getSupportFragmentManager(), "Fight end dialog");
+                        }
+                        return;
+                    }
+                    if (gameViewModel.isEnemyKilled()) {
+                        gameViewModel.incrementKilledEnemies();
                         binding.clickableArea.setVisibility(View.GONE);
-                        gameViewModel.setBattleResult(BattleResult.DEFEAT);
+                        if (gameViewModel.isAllEnemyKilled()) {
+                            gameViewModel.incrementFightsCount();
+                            gameViewModel.setBattleResult(BattleResult.WIN_ADVENTURE);
+                        } else gameViewModel.setBattleResult(BattleResult.WIN_BATTLE);
                         fightEndDialog = new FightEndDialog();
                         fightEndDialog.setCancelable(false);
                         fightEndDialog.show(getActivity().getSupportFragmentManager(), "Fight end dialog");
+                        return;
                     }
-                    return;
-                }
-                if (gameViewModel.isEnemyKilled()) {
-                    binding.clickableArea.setVisibility(View.GONE);
-                    if (gameViewModel.isAllEnemyKilled()) gameViewModel.setBattleResult(BattleResult.WIN_ADVENTURE);
-                    else gameViewModel.setBattleResult(BattleResult.WIN_BATTLE);
-                    fightEndDialog = new FightEndDialog();
-                    fightEndDialog.setCancelable(false);
-                    fightEndDialog.show(getActivity().getSupportFragmentManager(), "Fight end dialog");
-                    return;
-                }
-                binding.healthPlayerBar.setProgress(gameViewModel.getPlayer().getHealth());
-                binding.healthEnemyBar.setProgress(gameViewModel.getEnemy(gameViewModel.getCurrentEnemyId()).getHealth());
-                if (aBoolean) {
-                    attackPhase();
-                }
-                else {
-                    if (!(gameViewModel.getCurrentPhaseResult() == PhaseResult.DEAL_DAMAGE) || !gameViewModel.useActivePower(Powers.ICE_POWER)) {
-                        defensePhase();
+                    binding.healthPlayerBar.setProgress(gameViewModel.getPlayer().getHealth());
+                    binding.healthEnemyBar.setProgress(gameViewModel.getEnemy(gameViewModel.getCurrentEnemyId()).getHealth());
+                    if (aBoolean) {
+                        attackPhase();
+                    } else {
+                        if (!(gameViewModel.getCurrentPhaseResult() == PhaseResult.DEAL_DAMAGE) || !gameViewModel.useActivePower(Powers.ICE_POWER)) {
+                            defensePhase();
+                        }
                     }
                 }
             }

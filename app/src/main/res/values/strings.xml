@@ -75,6 +75,8 @@
     <string name="griffin_power_title">Вы использовали таинственный талисман грифона. Невероятный по силе поток магии уничтожил вашего противника. Жаль, что талисман не уцелел…</string>
     <string name="life_power_title">Вам ещё рано на тот свет! Волшебное свечение возвращает вас к жизни</string>
     <string name="enemies_left">Монстров осталось: </string>
+    <string name="end_battle">Закончить бой</string>
+    <string name="new_achievement">Ура! Вы получили новое достижение</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -82,4 +84,9 @@
     <string name="max_pswrd_length">Пароль должен содержать не более 32 символов!</string>
     <string name="password_match_error">Пароли не совпадают!</string>
     <string name="bought">Куплено</string>
+
+    <string name="mock_string">Lorem ipsum dolor sit amet consectetur.
+        Adipiscing laoreet in ullamcorper et nunc. Et tincidunt nunc nisl volutpat libero at justo
+        dictumst faucibus. Nisl aliquam enim gravida tempus velit accumsan. Massa velit viverra nulla
+        habitant gravida. Nunc dignissim adipiscing dui amet sed at.</string>
 </resources>

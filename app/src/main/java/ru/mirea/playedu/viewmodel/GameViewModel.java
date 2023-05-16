@@ -16,10 +16,12 @@ import ru.mirea.playedu.data.repository.EnemyRepository;
 import ru.mirea.playedu.data.repository.PlayerRepository;
 import ru.mirea.playedu.data.repository.PowerRepository;
 import ru.mirea.playedu.data.repository.UserRepository;
+import ru.mirea.playedu.data.repository.UserStatsRepository;
 import ru.mirea.playedu.data.storage.cache.EnemyCacheStorage;
 import ru.mirea.playedu.data.storage.cache.PlayerCacheStorage;
 import ru.mirea.playedu.data.storage.cache.PowerCacheStorage;
 import ru.mirea.playedu.data.storage.cache.UserCacheStorage;
+import ru.mirea.playedu.data.storage.cache.UserStatsCacheStorage;
 import ru.mirea.playedu.databinding.ActivityLaunchBinding;
 import ru.mirea.playedu.model.Enemy;
 import ru.mirea.playedu.model.Player;
@@ -33,6 +35,8 @@ import ru.mirea.playedu.usecases.DecrementPlayerMistakeCount;
 import ru.mirea.playedu.usecases.DisablePowerUseCase;
 import ru.mirea.playedu.usecases.GetBoughtPowersUseCase;
 import ru.mirea.playedu.usecases.GetUserUseCase;
+import ru.mirea.playedu.usecases.IncrementFightsCountUseCase;
+import ru.mirea.playedu.usecases.IncrementKilledEnemiesUseCase;
 import ru.mirea.playedu.usecases.MakeHitEnemyUseCase;
 import ru.mirea.playedu.usecases.MakeHitPlayerUseCase;
 import ru.mirea.playedu.usecases.ReloadAllPowersStatus;
@@ -83,6 +87,10 @@ public class GameViewModel extends ViewModel {
     GetUserUseCase getUserUseCase;
     // Use case получения награды за вылазку
     SetAdventureRewardUseCase setAdventureRewardUseCase;
+    // Use case инкремента убитых врагов
+    IncrementKilledEnemiesUseCase incrementKilledEnemiesUseCase;
+    // Use case инкремента выиграных битв
+    IncrementFightsCountUseCase incrementFightsCountUseCase;
     // Текущий противник
     private int currentEnemy = 0;
     // Заход на экран?
@@ -106,6 +114,7 @@ public class GameViewModel extends ViewModel {
         enemyRepository = new EnemyRepository(EnemyCacheStorage.getInstance());
         powerRepository = new PowerRepository(PowerCacheStorage.getInstance());
         userRepository = new UserRepository(UserCacheStorage.getInstance());
+        UserStatsRepository userStatsRepository = new UserStatsRepository(UserStatsCacheStorage.getInstance());
         createEnemyListUseCase = new CreateEnemyListUseCase(enemyRepository);
         createPlayerUseCase = new CreatePlayerUseCase(playerRepository);
         makeHitEnemyUseCase = new MakeHitEnemyUseCase(playerRepository, enemyRepository);
@@ -120,6 +129,8 @@ public class GameViewModel extends ViewModel {
         revivePlayerUseCase = new RevivePlayerUseCase(playerRepository);
         getUserUseCase = new GetUserUseCase(userRepository);
         setAdventureRewardUseCase = new SetAdventureRewardUseCase(userRepository, enemyRepository);
+        incrementKilledEnemiesUseCase = new IncrementKilledEnemiesUseCase(userStatsRepository);
+        incrementFightsCountUseCase = new IncrementFightsCountUseCase(userStatsRepository);
         setEmptySelectedPowersList();
         getData();
     }
@@ -291,5 +302,13 @@ public class GameViewModel extends ViewModel {
 
     public void setIsFragmentEnter(boolean state) {
         isFragmentEnter = state;
+    }
+
+    public void incrementKilledEnemies() {
+        incrementKilledEnemiesUseCase.execute();
+    }
+
+    public void incrementFightsCount() {
+        incrementFightsCountUseCase.execute();
     }
 }

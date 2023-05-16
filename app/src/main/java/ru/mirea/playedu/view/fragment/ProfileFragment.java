@@ -25,6 +25,7 @@ import ru.mirea.playedu.view.adapter.AchievementAdapter;
 import ru.mirea.playedu.view.adapter.PowerAdapter;
 import ru.mirea.playedu.view.dialog.AchievementDialog;
 import ru.mirea.playedu.view.dialog.PowerDialog;
+import ru.mirea.playedu.view.dialog.ProfileDialog;
 import ru.mirea.playedu.viewmodel.ProfileViewModel;
 
 public class ProfileFragment extends Fragment {
@@ -64,9 +65,12 @@ public class ProfileFragment extends Fragment {
 
         // Создание адаптера
         // В аргументы передается список сил и callback для отслеживания нажатия на ачивку
-        AchievementAdapter achievementAdapter = new AchievementAdapter(viewModel.getAchievementsList(), achievement -> {
-            AchievementDialog dialog = new AchievementDialog(achievement);
-            dialog.show(getActivity().getSupportFragmentManager(), "Achievement dialog");
+        AchievementAdapter achievementAdapter = new AchievementAdapter(viewModel.getAchievementsList(), new AchievementAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Achievement achievement, int position) {
+                AchievementDialog dialog = new AchievementDialog(achievement);
+                dialog.show(getActivity().getSupportFragmentManager(), "Achievement dialog");
+            }
         });
         achievementsList.setAdapter(achievementAdapter);
 
@@ -88,6 +92,25 @@ public class ProfileFragment extends Fragment {
 
         viewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             binding.goldenCountTxt.setText(Integer.toString(user.getGoldenCoins()));
+        });
+
+        // Проверка на получение нового достижения
+        ArrayList<Achievement> lockedAchievements = viewModel.getLockedAchievements();
+        for (int i = 0; i < lockedAchievements.size(); i++) {
+            if (viewModel.isAchievementUnlocked(lockedAchievements.get(i))) {
+                AchievementDialog dialog = new AchievementDialog(lockedAchievements.get(i), true);
+                dialog.show(getActivity().getSupportFragmentManager(), "Achievement dialog");
+                achievementAdapter.setAchievementsList(viewModel.getAchievementsList());
+            }
+        }
+
+        // Выбор косметических значков
+        binding.profileImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProfileDialog dialog = new ProfileDialog();
+                dialog.show(getActivity().getSupportFragmentManager(), "Profile dialog");
+            }
         });
 
 

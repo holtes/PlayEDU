@@ -1,6 +1,8 @@
 package ru.mirea.playedu.view.activity;
 
 
+import static ru.mirea.playedu.Constants.MALE_IC;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -36,7 +38,7 @@ public class EnterActivity extends AppCompatActivity {
         binding.enterBtn.setOnClickListener(v -> {
             // TODO убрать нахер
             User user = new User("Пропастин Алексей Федорович", "passwordCOmrade",
-                    "+89690776", "ИВБО-01-22", 100, 1000, "no", new ArrayList<>());
+                    "+89690776", "ИВБО-01-22", 100, 1000, MALE_IC, new ArrayList<>());
             UserCacheStorage cacheStorage = UserCacheStorage.getInstance();
             UserStats userStats = new UserStats(1, Calendar.getInstance().getTime(), 10, 11, 0, 12, 0, 0);
             UserStatsCacheStorage storage = UserStatsCacheStorage.getInstance();

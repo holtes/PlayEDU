@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import ru.mirea.playedu.R;
 import ru.mirea.playedu.viewmodel.GameViewModel;
@@ -52,12 +54,12 @@ public class StartGameDialog extends DialogFragment {
         Button disagreeBtn = (Button) view.findViewById(R.id.no_btn);
         // Инициализация ViewModel
         gameViewModel = new ViewModelProvider(requireActivity()).get(GameViewModel.class);
-        gameViewModel.setIsFragmentEnter(false);
+
 
         agreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                gameViewModel.setIsFragmentEnter(true);
                 gameViewModel.setStartGame(true);
             }
         });
@@ -65,7 +67,12 @@ public class StartGameDialog extends DialogFragment {
         disagreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameViewModel.setIsFragmentEnter(false);
                 gameViewModel.setStartGame(false);
+                NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+                NavController navController = navHostFragment.getNavController();
+                navController.popBackStack();
+                getDialog().dismiss();
             }
         });
         return builder.create();

@@ -21,12 +21,15 @@ import ru.mirea.playedu.model.User;
 import ru.mirea.playedu.model.UserTask;
 import ru.mirea.playedu.model.UserTaskFilter;
 import ru.mirea.playedu.usecases.CompleteUserTaskUseCase;
+import ru.mirea.playedu.usecases.DeleteUserTaskUseCase;
 import ru.mirea.playedu.usecases.GetCategoryTitlesListUseCase;
 import ru.mirea.playedu.usecases.GetTasksWithCategoryUseCase;
 import ru.mirea.playedu.usecases.GetTasksWithColorUseCase;
 import ru.mirea.playedu.usecases.GetTasksWithCreationDateUseCase;
+import ru.mirea.playedu.usecases.GetUserFirstNameUseCase;
 import ru.mirea.playedu.usecases.GetUserTasksListUseCase;
 import ru.mirea.playedu.usecases.GetUserUseCase;
+import ru.mirea.playedu.view.dialog.DeleteTaskDialog;
 
 public class TasksViewModel extends ViewModel {
 
@@ -37,7 +40,9 @@ public class TasksViewModel extends ViewModel {
     private GetTasksWithCreationDateUseCase getTasksWithCreationDateUseCase;
     private GetUserTasksListUseCase getUserTasksListUseCase;
     private CompleteUserTaskUseCase completeUserTaskUseCase;
+    private DeleteUserTaskUseCase deleteUserTaskUseCase;
     private GetUserUseCase getUserUseCase;
+    private GetUserFirstNameUseCase getUserFirstNameUseCase;
     // Список пользовательских задач
     private final MutableLiveData<ArrayList<UserTask>> userTasksList = new MutableLiveData<>();;
     // Список категорий
@@ -65,6 +70,8 @@ public class TasksViewModel extends ViewModel {
         getUserTasksListUseCase = new GetUserTasksListUseCase(userTaskRepository);
         completeUserTaskUseCase = new CompleteUserTaskUseCase(userTaskRepository, statsRepository, userRepository);
         getUserUseCase = new GetUserUseCase(userRepository);
+        getUserFirstNameUseCase = new GetUserFirstNameUseCase(userRepository);
+        deleteUserTaskUseCase = new DeleteUserTaskUseCase(userTaskRepository);
 
         dateList = new ArrayList<>();
         userTaskFilter = new UserTaskFilter();
@@ -150,6 +157,16 @@ public class TasksViewModel extends ViewModel {
 
     }
 
+    public int deleteUserTask(UserTask task) {
+        Response response = deleteUserTaskUseCase.execute(task);
+        if (response.getCode() != 200) {
+            errorMessage.setValue(response.getBody());
+        } else {
+            filterUserTasks();
+        }
+        return response.getCode();
+    }
+
     public LiveData<ArrayList<UserTask>> getUserTasksList() {
         return userTasksList;
     }
@@ -179,5 +196,9 @@ public class TasksViewModel extends ViewModel {
 
     public int getCurrentDatePosition() {
         return currentDatePosition;
+    }
+
+    public String getUserFirstName() {
+        return getUserFirstNameUseCase.execute();
     }
 }

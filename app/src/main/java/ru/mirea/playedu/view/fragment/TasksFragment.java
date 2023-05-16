@@ -23,6 +23,7 @@ import com.skydoves.powerspinner.PowerSpinnerView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import ru.mirea.playedu.Constants;
 import ru.mirea.playedu.DateHelper;
 import ru.mirea.playedu.DimensionManager;
 import ru.mirea.playedu.HorizontalMarginItemDecoration;
@@ -33,6 +34,7 @@ import ru.mirea.playedu.view.adapter.DateAdapter;
 import ru.mirea.playedu.view.adapter.UserTaskAdapter;
 import ru.mirea.playedu.view.dialog.AddTaskDialog;
 import ru.mirea.playedu.view.dialog.CompleteTaskDialog;
+import ru.mirea.playedu.view.dialog.DeleteTaskDialog;
 import ru.mirea.playedu.view.dialog.FilterColorDialog;
 import ru.mirea.playedu.view.dialog.FilterCategoryDialog;
 import ru.mirea.playedu.viewmodel.TasksViewModel;
@@ -48,6 +50,11 @@ public class TasksFragment extends Fragment {
         // Инициализация ViewModel
         tasksViewModel = new ViewModelProvider(requireActivity()).get(TasksViewModel.class);
         binding.setViewModel(tasksViewModel);
+
+        // Персонализация данных
+        binding.greetHdr.setText(String.format("Привет, %s!", tasksViewModel.getUserFirstName()));
+        Calendar calendar = Calendar.getInstance();
+        binding.dateTxt.setText(String.format("Сегодня %s", Constants.getDeadlineString(calendar.getTime())));
 
         // Recycler-View для календаря
         RecyclerView dateList = binding.dateList;
@@ -147,6 +154,7 @@ public class TasksFragment extends Fragment {
         return binding.getRoot();
     }
 
+
     // Задание списка элементов для списка пользовательских заданий
     private void setUserTaskList(ArrayList<UserTask> userTasks) {
         UserTaskAdapter adapter = new UserTaskAdapter(userTasks, new UserTaskAdapter.TaskItemListener() {
@@ -158,7 +166,8 @@ public class TasksFragment extends Fragment {
 
             @Override
             public void onDelete(UserTask userTask) {
-
+                DeleteTaskDialog dialog = new DeleteTaskDialog(userTask);
+                dialog.show(getParentFragmentManager(), "Delete task dialog");
             }
         });
         binding.userTasksRecyclerView.setAdapter(adapter);

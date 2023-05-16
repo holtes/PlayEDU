@@ -1,12 +1,17 @@
 package ru.mirea.playedu.view.activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import ru.mirea.playedu.Constants;
 import ru.mirea.playedu.data.storage.cache.AchievementCacheStorage;
@@ -32,6 +37,17 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
 
+        navHostFragment.getChildFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if ((int) navController.getCurrentDestination().getId() == 2131361880) {
+                    binding.bottomNavigationView.setVisibility(View.GONE);
+                }
+                else {
+                    binding.bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         // TODO убрать это нахуй
         // Перевiрка регистрации

@@ -1,11 +1,13 @@
 package ru.mirea.playedu.view.adapter;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -95,6 +98,7 @@ public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.ViewHo
         private TextView rewardTxt;
         private CheckBox completeBox;
         private TextView header;
+        private ImageView deleteBtn;
 
 
         public ViewHolder(@NonNull View itemView, int viewType) {
@@ -107,6 +111,7 @@ public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.ViewHo
             rewardTxt = itemView.findViewById(R.id.reward_txt);
             deadlineTxt = itemView.findViewById(R.id.deadline_txt);
             completeBox = itemView.findViewById(R.id.complete_box);
+            deleteBtn = itemView.findViewById(R.id.delete_btn);
         }
 
         public void bind(UserTask task, int viewType, TaskItemListener listener) {
@@ -117,10 +122,18 @@ public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.ViewHo
             labelTxt.setText(task.getLabel());
             rewardTxt.setText(Integer.toString(task.getCoinsReward()));
             deadlineTxt.setText(Constants.getDeadlineString(task.getDeadlineDate()));
+            Calendar calendar = Calendar.getInstance();
+            if (task.getDeadlineDate().after(calendar.getTime())) {
+                deadlineTxt.setTextColor(Color.RED);
+            }
 
             completeBox.setOnClickListener(view -> {
                 completeBox.setChecked(false);
                 listener.onComplete(task);
+            });
+
+            deleteBtn.setOnClickListener(view -> {
+                listener.onDelete(task);
             });
         }
 
