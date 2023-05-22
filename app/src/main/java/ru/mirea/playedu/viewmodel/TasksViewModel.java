@@ -172,6 +172,7 @@ public class TasksViewModel extends ViewModel {
     }
 
     public MutableLiveData<ArrayList<String>> getCategoryTitlesList() {
+        categoryTitlesList.setValue(getCategoryTitlesListUseCase.execute());
         return categoryTitlesList;
     }
 

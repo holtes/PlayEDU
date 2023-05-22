@@ -29,6 +29,7 @@ import ru.mirea.playedu.DimensionManager;
 import ru.mirea.playedu.HorizontalMarginItemDecoration;
 import ru.mirea.playedu.R;
 import ru.mirea.playedu.databinding.FragmentTasksBinding;
+import ru.mirea.playedu.model.User;
 import ru.mirea.playedu.model.UserTask;
 import ru.mirea.playedu.view.adapter.DateAdapter;
 import ru.mirea.playedu.view.adapter.UserTaskAdapter;
@@ -148,6 +149,14 @@ public class TasksFragment extends Fragment {
             }
         });
 
+        // Подписка на обновление монет
+        tasksViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                binding.silverCountTxt.setText(Integer.toString(user.getSilverCoins()));
+                binding.goldenCountTxt.setText(Integer.toString(user.getGoldenCoins()));
+            }
+        });
         //new DeleteTaskDialog().show(getActivity().getSupportFragmentManager(), "Delete task dialog");
         //new CompleteTaskDialog().show(getActivity().getSupportFragmentManager(), "Complete task dialog");
 
