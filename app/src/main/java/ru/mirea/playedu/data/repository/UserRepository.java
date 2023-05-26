@@ -1,5 +1,7 @@
 package ru.mirea.playedu.data.repository;
 
+import java.util.ArrayList;
+
 import ru.mirea.playedu.model.Response;
 import ru.mirea.playedu.model.User;
 import ru.mirea.playedu.data.storage.cache.UserCacheStorage;
@@ -30,5 +32,9 @@ public class UserRepository {
     public Response updateUser(User user) {
         cacheStorage.setUser(user);
         return new Response(200, "Success");
+    }
+
+    public ArrayList<User> getUsers() {
+        return cacheStorage.getUsers();
     }
 }

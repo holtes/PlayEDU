@@ -110,6 +110,7 @@
                 android:textSize="@dimen/header1_txt_size" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/play_edu_tasks_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewEnd"

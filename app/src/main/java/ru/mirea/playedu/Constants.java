@@ -139,6 +139,10 @@ public class Constants {
     public static int EFFECT_INFO = 0;
     public static int EFFECT_USAGE = 1;
 
+    // Константы доски лидеров
+    public static int LESS = 5;
+    public static int MORE = 20;
+
     // Сила заглушка
     public static Power selectablePower = new Power(-1, 0, "", "", false, R.drawable.ic_pick_power, SILVER_COINS_TYPE, EFFECT_INFO, Powers.NONE,0);
     // Атчивка заглушка

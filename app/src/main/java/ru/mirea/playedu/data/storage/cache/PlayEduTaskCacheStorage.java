@@ -18,7 +18,7 @@ public class PlayEduTaskCacheStorage {
 
     // Возвращает экземпляр класса
     // Если экземпляра нет, создает новый
-    private static PlayEduTaskCacheStorage getInstance() {
+    public static PlayEduTaskCacheStorage getInstance() {
         if (instance == null)
             instance = new PlayEduTaskCacheStorage();
 

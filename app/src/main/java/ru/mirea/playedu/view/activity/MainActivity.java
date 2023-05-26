@@ -13,12 +13,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import java.util.Calendar;
+
 import ru.mirea.playedu.Constants;
 import ru.mirea.playedu.data.storage.cache.AchievementCacheStorage;
+import ru.mirea.playedu.data.storage.cache.PlayEduTaskCacheStorage;
 import ru.mirea.playedu.data.storage.cache.PowerCacheStorage;
 import ru.mirea.playedu.data.storage.cache.UserCacheStorage;
 import ru.mirea.playedu.data.storage.cache.UserStatsCacheStorage;
 import ru.mirea.playedu.model.Achievement;
+import ru.mirea.playedu.model.PlayEduEvent;
+import ru.mirea.playedu.model.PlayEduEventKillEnemy;
+import ru.mirea.playedu.model.PlayEduEventNews;
+import ru.mirea.playedu.model.PlayEduTask;
 import ru.mirea.playedu.model.Power;
 import ru.mirea.playedu.model.User;
 import ru.mirea.playedu.model.UserStats;
@@ -49,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // TODO убрать это нахуй
         // Перевiрка регистрации
         UserStatsCacheStorage userStatsCacheStorage = UserStatsCacheStorage.getInstance();
         UserCacheStorage userCacheStorage = UserCacheStorage.getInstance();
@@ -59,18 +65,26 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("Cat", user.toString() + " " + userStats.toString());
 
-        // Мокаем ачивки (осуждаю)
         AchievementCacheStorage cacheStorage = AchievementCacheStorage.getInstance();
         for (Achievement achievement: Constants.getAchievementsList(this)) {
             cacheStorage.addAchievement(achievement);
         }
 
-        // Мокаем силы (осуждаю)
         PowerCacheStorage cacheStorage1 = PowerCacheStorage.getInstance();
         for (Power power: Constants.getPowersList(this)) {
             cacheStorage1.addPower(power);
         }
 
+        // Мокаем задания от системы (осуждаю)
+        Calendar date2 = Calendar.getInstance();
+        date2.add(Calendar.DAY_OF_MONTH, 1);
+        PlayEduTaskCacheStorage playEduTaskCacheStorage = PlayEduTaskCacheStorage.getInstance();
+        PlayEduEventKillEnemy playEduEventKillEnemy = new PlayEduEventKillEnemy(0, "Группу моснтров видели возле корпуса Е. Кто знает, что они замышляют. Избавтесь от них!", 10);
+        PlayEduTask playEduTask1 = new PlayEduTask(0, "Убить 10 монстров в режиме приключения", playEduEventKillEnemy, false, 50, Calendar.getInstance().getTime(), date2.getTime());
+        PlayEduEventNews playEduEventNews = new PlayEduEventNews(0, "Интересно, а как живут маги в Арктике? Думаю, что стоит приоткрыть завесу тайны!", "https://vk.com/mirea_official?w=wall-1388_33846");
+        PlayEduTask playEduTask2 = new PlayEduTask(0, "Посмотреть запись волонтерского центра", playEduEventNews, false, 80, Calendar.getInstance().getTime(), date2.getTime());
+        playEduTaskCacheStorage.addTask(playEduTask1);
+        playEduTaskCacheStorage.addTask(playEduTask2);
         setContentView(binding.getRoot());
     }
 }

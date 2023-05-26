@@ -20,10 +20,11 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="98"
+            android:layout_weight="70"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -58,7 +59,7 @@
 
             android:layout_weight="1"
             android:text="69"
-            android:textColor="@color/silver" />
+            android:textColor="@color/golden" />
 
         <ImageView
             android:id="@+id/silver_ic"
@@ -67,7 +68,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="20dp"
             android:layout_weight="1"
-            android:src="@drawable/pic_silver_coin" />
+            android:src="@drawable/pic_golden_coin" />
 
 
     </LinearLayout>

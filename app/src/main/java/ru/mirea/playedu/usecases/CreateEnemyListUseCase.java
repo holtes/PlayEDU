@@ -53,7 +53,7 @@ public class CreateEnemyListUseCase {
     public void execute() {
         enemyRepository.deleteAllEnemies();
         for (int i = 0; i < enemiesCount; i++) {
-            if (i == enemiesCount - 1 && getRandomNumber(0, 101) > bossAppearancePercent) {
+            if (i == enemiesCount - 1 && getRandomNumber(0, 101) < bossAppearancePercent) {
                 enemyRepository.addEnemy(createBossEnemy(i));
             }
             else {

@@ -1,5 +1,7 @@
 package ru.mirea.playedu.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -7,29 +9,38 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import ru.mirea.playedu.data.repository.CategoryRepository;
+import ru.mirea.playedu.data.repository.PlayEduTaskRepository;
 import ru.mirea.playedu.data.repository.UserRepository;
 import ru.mirea.playedu.data.repository.UserStatsRepository;
 import ru.mirea.playedu.data.repository.UserTaskRepository;
 import ru.mirea.playedu.data.storage.cache.CategoryCacheStorage;
+import ru.mirea.playedu.data.storage.cache.PlayEduTaskCacheStorage;
 import ru.mirea.playedu.data.storage.cache.UserCacheStorage;
 import ru.mirea.playedu.data.storage.cache.UserStatsCacheStorage;
 import ru.mirea.playedu.data.storage.cache.UserTaskCacheStorage;
+import ru.mirea.playedu.model.PlayEduTask;
 import ru.mirea.playedu.model.Response;
 import ru.mirea.playedu.model.User;
 import ru.mirea.playedu.model.UserTask;
 import ru.mirea.playedu.model.UserTaskFilter;
+import ru.mirea.playedu.usecases.CheckCompletedPlayEduTasksUseCase;
+import ru.mirea.playedu.usecases.CompletePlayEduTaskUseCase;
 import ru.mirea.playedu.usecases.CompleteUserTaskUseCase;
 import ru.mirea.playedu.usecases.DeleteUserTaskUseCase;
 import ru.mirea.playedu.usecases.GetCategoryTitlesListUseCase;
+import ru.mirea.playedu.usecases.GetPlayEduTasksUseCase;
 import ru.mirea.playedu.usecases.GetTasksWithCategoryUseCase;
 import ru.mirea.playedu.usecases.GetTasksWithColorUseCase;
+import ru.mirea.playedu.usecases.GetTasksWithCreationDatePlayEduUseCase;
 import ru.mirea.playedu.usecases.GetTasksWithCreationDateUseCase;
 import ru.mirea.playedu.usecases.GetUserFirstNameUseCase;
 import ru.mirea.playedu.usecases.GetUserTasksListUseCase;
 import ru.mirea.playedu.usecases.GetUserUseCase;
 import ru.mirea.playedu.view.dialog.DeleteTaskDialog;
+import ru.mirea.playedu.view.dialog.PlayEduTaskDialog;
 
 public class TasksViewModel extends ViewModel {
 
@@ -38,13 +49,19 @@ public class TasksViewModel extends ViewModel {
     private GetTasksWithCategoryUseCase getTasksWithCategoryUseCase;
     private GetTasksWithColorUseCase getTasksWithColorUseCase;
     private GetTasksWithCreationDateUseCase getTasksWithCreationDateUseCase;
+    private GetTasksWithCreationDatePlayEduUseCase getTasksWithCreationDatePlayEduUseCase;
     private GetUserTasksListUseCase getUserTasksListUseCase;
     private CompleteUserTaskUseCase completeUserTaskUseCase;
+    private CompletePlayEduTaskUseCase completePlayEduTaskUseCase;
     private DeleteUserTaskUseCase deleteUserTaskUseCase;
     private GetUserUseCase getUserUseCase;
     private GetUserFirstNameUseCase getUserFirstNameUseCase;
+    public GetPlayEduTasksUseCase getPlayEduTasksUseCase;
+    public CheckCompletedPlayEduTasksUseCase checkCompletedPlayEduTasksUseCase;
     // Список пользовательских задач
     private final MutableLiveData<ArrayList<UserTask>> userTasksList = new MutableLiveData<>();;
+    // Список заданий от системы
+    private final MutableLiveData<ArrayList<PlayEduTask>> playEduTasksList = new MutableLiveData<>();;
     // Список категорий
     private final MutableLiveData<ArrayList<String>> categoryTitlesList = new MutableLiveData<>();
     // Массив дат
@@ -62,21 +79,26 @@ public class TasksViewModel extends ViewModel {
         CategoryRepository categoryRepository = new CategoryRepository(CategoryCacheStorage.getInstance());
         UserStatsRepository statsRepository = new UserStatsRepository(UserStatsCacheStorage.getInstance());
         UserRepository userRepository = new UserRepository(UserCacheStorage.getInstance());
+        PlayEduTaskRepository playEduTaskRepository = new PlayEduTaskRepository(PlayEduTaskCacheStorage.getInstance());
 
         getCategoryTitlesListUseCase = new GetCategoryTitlesListUseCase(categoryRepository);
         getTasksWithCategoryUseCase = new GetTasksWithCategoryUseCase(userTaskRepository);
         getTasksWithColorUseCase = new GetTasksWithColorUseCase(userTaskRepository);
         getTasksWithCreationDateUseCase = new GetTasksWithCreationDateUseCase(userTaskRepository);
+        getTasksWithCreationDatePlayEduUseCase = new GetTasksWithCreationDatePlayEduUseCase(playEduTaskRepository);
         getUserTasksListUseCase = new GetUserTasksListUseCase(userTaskRepository);
         completeUserTaskUseCase = new CompleteUserTaskUseCase(userTaskRepository, statsRepository, userRepository);
         getUserUseCase = new GetUserUseCase(userRepository);
         getUserFirstNameUseCase = new GetUserFirstNameUseCase(userRepository);
         deleteUserTaskUseCase = new DeleteUserTaskUseCase(userTaskRepository);
-
+        getPlayEduTasksUseCase = new GetPlayEduTasksUseCase(playEduTaskRepository);
+        completePlayEduTaskUseCase = new CompletePlayEduTaskUseCase(playEduTaskRepository, userRepository);
+        checkCompletedPlayEduTasksUseCase = new CheckCompletedPlayEduTasksUseCase(playEduTaskRepository, userRepository);
         dateList = new ArrayList<>();
         userTaskFilter = new UserTaskFilter();
 
         userTasksList.setValue(new ArrayList<>());
+        playEduTasksList.setValue(new ArrayList<>());
         categoryTitlesList.setValue(new ArrayList<>());
         getData();
     }
@@ -125,6 +147,10 @@ public class TasksViewModel extends ViewModel {
         }
     }
 
+    public void filterPlayEduTasksByDate(Calendar date) {
+        playEduTasksList.setValue(getTasksWithCreationDatePlayEduUseCase.execute(getPlayEduTasksUseCase.execute(), date));
+    }
+
     private void fillDateList() {
         Date today = Calendar.getInstance().getTime();
         // Получение даты, равной текущей минус год
@@ -155,6 +181,20 @@ public class TasksViewModel extends ViewModel {
         }
         return response.getCode();
 
+    }
+
+    public int completePlayEduTask(PlayEduTask playEduTask) {
+        Response response = completePlayEduTaskUseCase.execute(playEduTask);
+        if (response.getCode() != 200) {
+            errorMessage.setValue(response.getBody());
+        }
+        else {
+            user.setValue(getUserUseCase.execute());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(playEduTask.getCreationDate());
+            filterPlayEduTasksByDate(calendar);
+        }
+        return response.getCode();
     }
 
     public int deleteUserTask(UserTask task) {
@@ -201,5 +241,13 @@ public class TasksViewModel extends ViewModel {
 
     public String getUserFirstName() {
         return getUserFirstNameUseCase.execute();
+    }
+
+    public LiveData<ArrayList<PlayEduTask>> getPlayEduTasksList() {
+        return playEduTasksList;
+    }
+
+    public void checkCompletedPlayEduTasks() {
+        checkCompletedPlayEduTasksUseCase.execute();
     }
 }

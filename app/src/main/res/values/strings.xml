@@ -42,10 +42,14 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="statistic_title">Статистика</string>
+    <string name="play_edu_transaction">Перейти</string>
+    <string name="play_edu_price_title">Награда:</string>
+    <string name="play_edu_task_title">Задание от PlayEdu:</string>
     <string name="play_edu_compl_count">Заданий от PlayEdu выполнено</string>
     <string name="tasks_compl_count">Собственных заданий выполнено</string>
     <string name="kills_count">Монстров убито</string>
     <string name="show_more_title">Показать больше</string>
+    <string name="show_less_title">Показать меньше</string>
     <string name="powers_title">Силы</string>
     <string name="achievements_title">Достижения</string>
     <string name="leaderboard_title">Доска лидеров</string>
@@ -65,7 +69,9 @@
     <string name="victory">Победа!</string>
     <string name="defeat">К сожалению, вы проиграли</string>
     <string name="attack">Атака</string>
+    <string name="attack_rules">Нажмите на экран, когда оранжевый круг совместиться с красным, чтобы нанести урон. В противном случае вам защитается промах!</string>
     <string name="defense">Защита</string>
+    <string name="defense_rules">Зажмите палец на экране, чтобы увеличить размер оранжевого круга. Отпустите палец, чтобы уменьшить его. Чтобы увернуться от атаки противника, совместите оранжевый круг с красным по истечении времени таймера!</string>
     <string name="new_fight">Новый бой</string>
     <string name="award">Награда:</string>
     <string name="no_damage_to_player">Вам не был нанесен урон</string>

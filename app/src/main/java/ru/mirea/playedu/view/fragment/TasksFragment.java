@@ -29,15 +29,18 @@ import ru.mirea.playedu.DimensionManager;
 import ru.mirea.playedu.HorizontalMarginItemDecoration;
 import ru.mirea.playedu.R;
 import ru.mirea.playedu.databinding.FragmentTasksBinding;
+import ru.mirea.playedu.model.PlayEduTask;
 import ru.mirea.playedu.model.User;
 import ru.mirea.playedu.model.UserTask;
 import ru.mirea.playedu.view.adapter.DateAdapter;
+import ru.mirea.playedu.view.adapter.PlayEduTaskAdapter;
 import ru.mirea.playedu.view.adapter.UserTaskAdapter;
 import ru.mirea.playedu.view.dialog.AddTaskDialog;
 import ru.mirea.playedu.view.dialog.CompleteTaskDialog;
 import ru.mirea.playedu.view.dialog.DeleteTaskDialog;
 import ru.mirea.playedu.view.dialog.FilterColorDialog;
 import ru.mirea.playedu.view.dialog.FilterCategoryDialog;
+import ru.mirea.playedu.view.dialog.PlayEduTaskDialog;
 import ru.mirea.playedu.viewmodel.TasksViewModel;
 
 public class TasksFragment extends Fragment {
@@ -61,6 +64,7 @@ public class TasksFragment extends Fragment {
         RecyclerView dateList = binding.dateList;
         DateAdapter dateAdapter = new DateAdapter(date -> {
             tasksViewModel.filterUserTasksByDate(date);
+            tasksViewModel.filterPlayEduTasksByDate(date);
         });
         dateAdapter.setPickedDate(DateHelper.getTodayDate());
         dateAdapter.setDateList(tasksViewModel.getDateList());
@@ -157,8 +161,17 @@ public class TasksFragment extends Fragment {
                 binding.goldenCountTxt.setText(Integer.toString(user.getGoldenCoins()));
             }
         });
-        //new DeleteTaskDialog().show(getActivity().getSupportFragmentManager(), "Delete task dialog");
-        //new CompleteTaskDialog().show(getActivity().getSupportFragmentManager(), "Complete task dialog");
+
+        // Проверка выполненнных заданий системы
+        tasksViewModel.checkCompletedPlayEduTasks();
+
+        // Задание списка заданий системы
+        tasksViewModel.getPlayEduTasksList().observe(getViewLifecycleOwner(), new Observer<ArrayList<PlayEduTask>>() {
+            @Override
+            public void onChanged(ArrayList<PlayEduTask> playEduTasks) {
+                setPlayEduTasksList(playEduTasks);
+            }
+        });
 
         return binding.getRoot();
     }
@@ -181,5 +194,19 @@ public class TasksFragment extends Fragment {
         });
         binding.userTasksRecyclerView.setAdapter(adapter);
         binding.userTasksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    // Задание списка заданий системы
+    private void setPlayEduTasksList(ArrayList<PlayEduTask> playEduTasks) {
+        PlayEduTaskAdapter playEduTaskAdapter = new PlayEduTaskAdapter(playEduTasks, new PlayEduTaskAdapter.TaskItemListener() {
+            @Override
+            public void onClick(PlayEduTask playEduTask) {
+                PlayEduTaskDialog dialog = new PlayEduTaskDialog(playEduTask);
+                dialog.show(getParentFragmentManager(), "PlayEdu task dialog");
+            }
+        });
+        binding.playEduTasksList.setAdapter(playEduTaskAdapter);
+        binding.playEduTasksList.setLayoutManager(new LinearLayoutManager(getContext()));
+
     }
 }

@@ -1,5 +1,6 @@
 package ru.mirea.playedu.view.fragment;
 
+import static ru.mirea.playedu.Constants.MALE_IC;
 import static ru.mirea.playedu.Constants.getRandomNumber;
 import static ru.mirea.playedu.Constants.icePowerKoef;
 
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import ru.mirea.playedu.Constants.PowerStatus;
 import ru.mirea.playedu.Constants.Powers;
@@ -50,6 +52,12 @@ public class GameFragment extends Fragment {
         binding = FragmentGameBinding.inflate(getLayoutInflater());
         // Инициализация ViewModel
         gameViewModel = new ViewModelProvider(requireActivity()).get(GameViewModel.class);
+        if (Objects.equals(gameViewModel.getUser().getUserIcon(), MALE_IC)) {
+            binding.playerIcon.setImageResource(R.drawable.pic_magician);
+        }
+        else {
+            binding.playerIcon.setImageResource(R.drawable.ic_female_magician);
+        }
         StartGameDialog dialog = new StartGameDialog();
         dialog.setCancelable(false);
         dialog.show(getActivity().getSupportFragmentManager(), "Start game dialog");
@@ -116,6 +124,7 @@ public class GameFragment extends Fragment {
                     }
                     if (gameViewModel.isEnemyKilled()) {
                         gameViewModel.incrementKilledEnemies();
+                        gameViewModel.incrementEnemiesPlayEduEvent();
                         binding.clickableArea.setVisibility(View.GONE);
                         if (gameViewModel.isAllEnemyKilled()) {
                             gameViewModel.incrementFightsCount();
@@ -200,6 +209,7 @@ public class GameFragment extends Fragment {
     }
 
     public void gameIteration(int enemyId) {
+        binding.enemyIcon.setImageResource(gameViewModel.getEnemy(enemyId).getImageId());
         enemyPreviewDialog = new EnemyPreviewDialog(enemyId);
         enemyPreviewDialog.setCancelable(false);
         enemyPreviewDialog.show(getActivity().getSupportFragmentManager(), "Enemy game dialog");
@@ -207,6 +217,7 @@ public class GameFragment extends Fragment {
 
     public void attackPhase() {
         binding.phaseTitle.setText(R.string.attack);
+        binding.phaseDescription.setText(R.string.attack_rules);
         Enemy enemy = gameViewModel.getEnemy(gameViewModel.getCurrentEnemyId());
         float speed = enemy.getAttackPhaseSpeed() * 0.01f;
         GameView gameView = new GameView(getContext(), speed, true); // создаём gameView
@@ -270,6 +281,7 @@ public class GameFragment extends Fragment {
 
     public void defensePhase() {
         binding.phaseTitle.setText(R.string.defense);
+        binding.phaseDescription.setText(R.string.defense_rules);
         Enemy enemy = gameViewModel.getEnemy(gameViewModel.getCurrentEnemyId());
         float speed = enemy.getDefensePhaseSpeed()* 0.01f;
         int size = enemy.getDefencePhaseSpread();

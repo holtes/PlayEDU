@@ -13,11 +13,13 @@ import ru.mirea.playedu.Constants.Powers;
 import ru.mirea.playedu.Constants.BattleResult;
 import ru.mirea.playedu.Constants.PhaseResult;
 import ru.mirea.playedu.data.repository.EnemyRepository;
+import ru.mirea.playedu.data.repository.PlayEduTaskRepository;
 import ru.mirea.playedu.data.repository.PlayerRepository;
 import ru.mirea.playedu.data.repository.PowerRepository;
 import ru.mirea.playedu.data.repository.UserRepository;
 import ru.mirea.playedu.data.repository.UserStatsRepository;
 import ru.mirea.playedu.data.storage.cache.EnemyCacheStorage;
+import ru.mirea.playedu.data.storage.cache.PlayEduTaskCacheStorage;
 import ru.mirea.playedu.data.storage.cache.PlayerCacheStorage;
 import ru.mirea.playedu.data.storage.cache.PowerCacheStorage;
 import ru.mirea.playedu.data.storage.cache.UserCacheStorage;
@@ -35,6 +37,7 @@ import ru.mirea.playedu.usecases.DecrementPlayerMistakeCount;
 import ru.mirea.playedu.usecases.DisablePowerUseCase;
 import ru.mirea.playedu.usecases.GetBoughtPowersUseCase;
 import ru.mirea.playedu.usecases.GetUserUseCase;
+import ru.mirea.playedu.usecases.IncrementEnemiesPlayEduEventUseCase;
 import ru.mirea.playedu.usecases.IncrementFightsCountUseCase;
 import ru.mirea.playedu.usecases.IncrementKilledEnemiesUseCase;
 import ru.mirea.playedu.usecases.MakeHitEnemyUseCase;
@@ -91,6 +94,8 @@ public class GameViewModel extends ViewModel {
     IncrementKilledEnemiesUseCase incrementKilledEnemiesUseCase;
     // Use case инкремента выиграных битв
     IncrementFightsCountUseCase incrementFightsCountUseCase;
+    // Use case инкремента убитых врагов в заданиях от системы
+    IncrementEnemiesPlayEduEventUseCase incrementEnemiesPlayEduEventUseCase;
     // Текущий противник
     private int currentEnemy = 0;
     // Заход на экран?
@@ -115,6 +120,7 @@ public class GameViewModel extends ViewModel {
         powerRepository = new PowerRepository(PowerCacheStorage.getInstance());
         userRepository = new UserRepository(UserCacheStorage.getInstance());
         UserStatsRepository userStatsRepository = new UserStatsRepository(UserStatsCacheStorage.getInstance());
+        PlayEduTaskRepository playEduTaskRepository = new PlayEduTaskRepository(PlayEduTaskCacheStorage.getInstance());
         createEnemyListUseCase = new CreateEnemyListUseCase(enemyRepository);
         createPlayerUseCase = new CreatePlayerUseCase(playerRepository);
         makeHitEnemyUseCase = new MakeHitEnemyUseCase(playerRepository, enemyRepository);
@@ -131,6 +137,7 @@ public class GameViewModel extends ViewModel {
         setAdventureRewardUseCase = new SetAdventureRewardUseCase(userRepository, enemyRepository);
         incrementKilledEnemiesUseCase = new IncrementKilledEnemiesUseCase(userStatsRepository);
         incrementFightsCountUseCase = new IncrementFightsCountUseCase(userStatsRepository);
+        incrementEnemiesPlayEduEventUseCase = new IncrementEnemiesPlayEduEventUseCase(playEduTaskRepository);
         setEmptySelectedPowersList();
         getData();
     }
@@ -310,5 +317,9 @@ public class GameViewModel extends ViewModel {
 
     public void incrementFightsCount() {
         incrementFightsCountUseCase.execute();
+    }
+
+    public void incrementEnemiesPlayEduEvent() {
+        incrementEnemiesPlayEduEventUseCase.execute();
     }
 }

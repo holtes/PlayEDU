@@ -23,7 +23,7 @@ public class SetAdventureRewardUseCase {
         for (Enemy enemy : enemies) {
             reward += enemy.getPrice();
         }
-        user.setGoldenCoins(reward);
+        user.setGoldenCoins(user.getGoldenCoins() + reward);
         userRepository.updateUser(user);
         return reward;
     }
