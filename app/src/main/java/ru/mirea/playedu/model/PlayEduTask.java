@@ -1,8 +1,9 @@
 package ru.mirea.playedu.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PlayEduTask {
+public class PlayEduTask implements Serializable {
 
     private int taskId;
     private String label;

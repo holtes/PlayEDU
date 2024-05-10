@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_questsFragment_to_profileFragment"
             app:destination="@id/profile_btn" />
+        <action
+            android:id="@+id/action_questsFragment_to_quizFragment"
+            app:destination="@id/quiz" />
     </fragment>
     <fragment
         android:id="@+id/adventure_btn"
@@ -62,5 +65,19 @@
         <action
             android:id="@+id/action_profileFragment_to_communityFragment"
             app:destination="@id/community_btn" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/quiz"
+        android:name="ru.mirea.playedu.view.fragment.QuizFragment"
+        android:label="QuizFragment" >
+        <action
+            android:id="@+id/action_quizFragment_to_questsFragment"
+            app:destination="@id/quests_btn" />
+        <argument
+            android:name="PlayEduTask"
+            app:argType="ru.mirea.playedu.model.PlayEduTask" />
+        />
+
     </fragment>
 </navigation>

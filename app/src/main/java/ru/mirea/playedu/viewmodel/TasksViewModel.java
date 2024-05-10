@@ -171,6 +171,14 @@ public class TasksViewModel extends ViewModel {
         currentDatePosition = todayDatePosition;
     }
 
+    /**
+     Метод завершает задание, созданное игроком
+     @param  task  Задание, которое нужно завершить
+     *
+     @return   int   Код ответа
+     *
+     @see         UserTask
+     */
     public int completeUserTask(UserTask task) {
         Response response = completeUserTaskUseCase.execute(task);
         if (response.getCode() != 200) {
@@ -248,6 +256,7 @@ public class TasksViewModel extends ViewModel {
     }
 
     public void checkCompletedPlayEduTasks() {
+        filterPlayEduTasksByDate(dateList.get(currentDatePosition));
         checkCompletedPlayEduTasksUseCase.execute();
     }
 }

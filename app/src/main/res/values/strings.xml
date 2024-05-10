@@ -91,6 +91,12 @@
     <string name="password_match_error">Пароли не совпадают!</string>
     <string name="bought">Куплено</string>
 
+    <string name="greetings">Поздравляем, ты правильно ответил на все вопросы!</string>
+    <string name="failure">Жаль, но не все ответы оказались верны. Попробуй снова!</string>
+
+    <string name="back_to_quests">Вернуться к квестам</string>
+    <string name="retry">Попробовать снова</string>
+
     <string name="mock_string">Lorem ipsum dolor sit amet consectetur.
         Adipiscing laoreet in ullamcorper et nunc. Et tincidunt nunc nisl volutpat libero at justo
         dictumst faucibus. Nisl aliquam enim gravida tempus velit accumsan. Massa velit viverra nulla

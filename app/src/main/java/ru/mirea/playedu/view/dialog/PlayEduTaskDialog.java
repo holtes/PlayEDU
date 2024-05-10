@@ -21,6 +21,9 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +43,9 @@ import ru.mirea.playedu.model.PlayEduEvent;
 import ru.mirea.playedu.model.PlayEduEventKillEnemy;
 import ru.mirea.playedu.model.PlayEduEventNews;
 import ru.mirea.playedu.model.PlayEduTask;
+import ru.mirea.playedu.model.Quiz;
 import ru.mirea.playedu.model.UserTask;
+import ru.mirea.playedu.view.activity.MainActivity;
 import ru.mirea.playedu.view.adapter.ColorAdapter;
 import ru.mirea.playedu.viewmodel.AddTaskViewModel;
 import ru.mirea.playedu.viewmodel.TasksViewModel;
@@ -105,6 +110,14 @@ public class PlayEduTaskDialog extends DialogFragment {
                     startActivity(browserIntent);
                     dismiss();
                 }
+            });
+        }
+        else if (playEduTask.getEvent().getClass() == Quiz.class) {
+            binding.transitionBtn.setOnClickListener(v -> {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("PlayEduTask", playEduTask);
+                NavHostFragment.findNavController(this).navigate(R.id.action_questsFragment_to_quizFragment, bundle);
+                dismiss();
             });
         }
     }

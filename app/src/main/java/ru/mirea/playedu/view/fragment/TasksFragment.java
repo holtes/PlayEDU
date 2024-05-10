@@ -169,6 +169,7 @@ public class TasksFragment extends Fragment {
         tasksViewModel.getPlayEduTasksList().observe(getViewLifecycleOwner(), new Observer<ArrayList<PlayEduTask>>() {
             @Override
             public void onChanged(ArrayList<PlayEduTask> playEduTasks) {
+                Log.d("myLogs", "Задания системы обновлены");
                 setPlayEduTasksList(playEduTasks);
             }
         });
